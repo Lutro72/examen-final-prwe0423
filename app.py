@@ -50,8 +50,8 @@ def ejercicio1():
             porcentaje = 0.25
 
         # Se calcula el descuento y total final
-        descuento   = total_sin_desc * porcentaje
-        total_pagar = total_sin_desc - descuento
+        descuento   = int(total_sin_desc * porcentaje)
+        total_pagar = int(total_sin_desc - descuento)
 
     return render_template('ejercicio1.html',
                            nombre=nombre,
