@@ -1,33 +1,26 @@
-# Importamos Flask, render_template y request desde el módulo flask
+# Se importan las herramientas de Flask que se van a usar
 from flask import Flask, render_template, request
 
-# Creamos la instancia de la aplicación Flask
+# Se crea la aplicación Flask
 app = Flask(__name__)
 
-# ------------------------------------------------------------------
-# USUARIOS PREREGISTRADOS — Ejercicio 2
-# Lista con dos diccionarios, uno por cada usuario del sistema
-# ------------------------------------------------------------------
+# Lista con los dos usuarios del sistema
+
 usuarios = [
     {"nombre": "juan", "contrasena": "admin", "tipo": "Administrador"},
     {"nombre": "pepe", "contrasena": "user",  "tipo": "Usuario"},
 ]
 
-# ------------------------------------------------------------------
-# PRINCIPAL- muestra el menú con dos botones
+# Ruta principal muestra el menú con dos botones
 # ------------------------------------------------------------------
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# ------------------------------------------------------------------
-# EJERCICIO 1 — Cálculo de compras de pintura
-# GET: muestra el formulario en blanco
-# POST: recibe los datos, calcula y devuelve los resultados
-# ------------------------------------------------------------------
+# Ruta del ejercicio 1, acepta GET y POST
 @app.route('/ejercicio1', methods=['GET', 'POST'])
 def ejercicio1():
-    # Inicializa en None para que Jinja2 no muestre resultados en GET
+    # Las variables empiezan en None hasta que se envie el formulario
     nombre         = None
     total_sin_desc = None
     descuento      = None
@@ -39,16 +32,16 @@ def ejercicio1():
         edad     = int(request.form['edad'])
         cantidad = int(request.form['cantidad'])
 
-        # Precio unitario fijo según enunciado
+        # Valor de cada tarro de pintura
         precio_unitario = 9000
 
         # Calcular el total antes de cualquier descuento
         total_sin_desc = cantidad * precio_unitario
 
-        # Tramos de descuento según edad (especificación del examen):
-        # - Menor de 18        → sin descuento
+        # Se aplica el descuento segun la edad ingresada:
+        # - Menor de 18→ sin descuento
         # - Entre 18 y 30 inclusive → 15%
-        # - Mayor de 30        → 25%
+        # - Mayor de 30→ 25%
         if edad < 18:
             porcentaje = 0
         elif 18 <= edad <= 30:
@@ -56,7 +49,7 @@ def ejercicio1():
         else:
             porcentaje = 0.25
 
-        # Monto descontado y total final
+        # Se calcula el descuento y total final
         descuento   = total_sin_desc * porcentaje
         total_pagar = total_sin_desc - descuento
 
@@ -66,10 +59,7 @@ def ejercicio1():
                            descuento=descuento,
                            total_pagar=total_pagar)
 
-# ------------------------------------------------------------------
-# EJERCICIO 2 — Login con usuarios preregistrados
-# GET: muestra el formulario en blanco
-# POST: verifica credenciales y muestra mensaje
+# Ruta del ejercicio 2, acepta GET y POST
 # ------------------------------------------------------------------
 @app.route('/ejercicio2', methods=['GET', 'POST'])
 def ejercicio2():
@@ -79,14 +69,14 @@ def ejercicio2():
         nombre_ingresado     = request.form['nombre']
         contrasena_ingresada = request.form['contrasena']
 
-        # Recorremos la lista buscando coincidencia de nombre Y contraseña
+        # Recorre la lista buscando si el usuario existe
         usuario_encontrado = None
         for u in usuarios:
             if u['nombre'] == nombre_ingresado and u['contrasena'] == contrasena_ingresada:
                 usuario_encontrado = u
                 break
 
-        # Mensaje según resultado — formato exacto del enunciado
+        # Muestra el mensaje según si el usuario fue encontrado o no
         if usuario_encontrado:
             mensaje = f"Bienvenido {usuario_encontrado['tipo']} {usuario_encontrado['nombre']}"
         else:
@@ -94,8 +84,7 @@ def ejercicio2():
 
     return render_template('ejercicio2.html', mensaje=mensaje)
 
-# ------------------------------------------------------------------
-# EJECUTAR LA APLICACIÓN
+# Se ejecuta la aplicacion
 # ------------------------------------------------------------------
 if __name__ == '__main__':
     app.run(debug=True)
