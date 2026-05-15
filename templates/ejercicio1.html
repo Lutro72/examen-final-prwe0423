@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 1</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Calculo de compras</h1>
+
+        <!-- El formulario envía los datos por POST a la misma ruta -->
+        <form method="POST" action="/ejercicio1">
+
+            <label>Ingresa tu nombre</label><br>
+            <input type="text" name="nombre"><br><br>
+
+            <label>Ingresa tu edad</label><br>
+            <input type="number" name="edad"><br><br>
+
+            <label>Ingresa la cantidad de tarros de pintura a comprar</label><br>
+            <input type="number" name="cantidad"><br><br>
+
+            <button type="submit" class="btn-calcular">Calcular</button>
+        </form>
+
+        <!-- Resultados: solo se muestran si nombre no es None (POST ejecutado) -->
+        {% if nombre is not none %}
+            <p>Nombre del cliente:  {{ nombre }}</p>
+            <p>Total sin descuento: ${{ total_sin_desc }}</p>
+            <p>El descuento es : ${{ descuento }}</p>
+            <p>El total a pagar es de : ${{ total_pagar }}</p>
+        {% endif %}
+
+        <br><a href="/">Volver al menú</a>
+    </div>
+</body>
+</html>

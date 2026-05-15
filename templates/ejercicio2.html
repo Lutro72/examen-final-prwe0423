@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Inicio de sesión</h1>
+
+        <form method="POST" action="/ejercicio2">
+
+            <label>Ingresa tu nombre</label><br>
+            <input type="text" name="nombre"><br><br>
+
+            <label>Ingresa tu contraseña</label><br>
+            <input type="password" name="contrasena"><br><br>
+
+            <button type="submit" class="btn-calcular">Verificar</button>
+        </form>
+
+        <!-- Mensaje aparece solo tras enviar el formulario -->
+        {% if mensaje is not none %}
+            <p>{{ mensaje }}</p>
+        {% endif %}
+
+        <br><a href="/">Volver al menú</a>
+    </div>
+</body>
+</html>
